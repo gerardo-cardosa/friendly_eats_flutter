@@ -53,20 +53,20 @@ class Restaurant extends StatelessWidget {
 
     List<Widget> myList = new List<Widget>();
     for (int i = 1; i < avgRating; i++) {
-     // myList.add(Icon(Icons.star, color: col==null?Colors.black: col,));
-      myList.add(Icon(Icons.star));
+      myList.add(Icon(Icons.star, color: col==null?Colors.black: col,));
+     // myList.add(Icon(Icons.star));
     }
 
     int cinco = 5;
     if (avgRating.toInt() > 0 && avgRating / avgRating.toInt() > 0) {
-     // myList.add(Icon(Icons.star, color: col==null?Colors.black: col,));
-      myList.add(Icon(Icons.star));
+      myList.add(Icon(Icons.star_half, color: col==null?Colors.black: col,));
+      //myList.add(Icon(Icons.star));
       cinco--;
     }
 
     for (int i = avgRating.toInt(); i < cinco; i++) {
-      //myList.add(Icon(Icons.star, color: col==null?Colors.black: col,));
-      myList.add(Icon(Icons.star));
+      myList.add(Icon(Icons.star_border, color: col==null?Colors.black: col,));
+      //myList.add(Icon(Icons.star));
     }
 
     return myList;

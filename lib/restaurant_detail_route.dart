@@ -87,7 +87,7 @@ class RestaurantDetailRoute extends StatelessWidget {
                   bottom: 20.0,
                   child:
                   Row(
-                    children: restaurant.setStarts(null),
+                    children: restaurant.setStarts(Colors.white),
                   )
                 ),
                 new Positioned(
