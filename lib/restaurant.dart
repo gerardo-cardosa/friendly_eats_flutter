@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:friendly_eats_flutter/restaurant_detail_route.dart';
+import 'package:friendly_eats_flutter/rating_bar.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 import 'dart:async';
@@ -115,11 +116,27 @@ class Restaurant extends StatelessWidget {
 //                ),
 //              ),
               title: Text(title),
-              subtitle: ListView(
-                children: <Widget>[Text(city), Text(category)],
+              subtitle: new Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        new StarRating(rating: avgRating),
+                        Text("(" + numRatings.toString() + ")"),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          category,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(" - "),
+                        Text(city)
+                      ],
+                    ),
+                  ]
               ),
-              //Text('city'),
-              trailing: Icon(Icons.attach_money),
+              trailing: (price == 1) ? Text('\$'): (price == 2) ? Text('\$\$'): Text('\$\$\$'),
               isThreeLine: true,
             ),
           ),

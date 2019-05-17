@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:friendly_eats_flutter/restaurant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-final _backgroundColor = Colors.green[100];
+final _backgroundColor = Colors.lightBlue[600];
 
 class RestaurantRouter extends StatelessWidget{
   const RestaurantRouter();
@@ -47,7 +47,7 @@ class RestaurantRouter extends StatelessWidget{
       leading: Builder(
         builder: (BuildContext context){
           return IconButton(
-            icon: const Icon(Icons.fastfood),
+            icon: const Icon(Icons.fastfood, color: Colors.white),
           );
         },
       ),
@@ -57,7 +57,7 @@ class RestaurantRouter extends StatelessWidget{
       backgroundColor: _backgroundColor,
       title: Text(
         'Friendly Eats',
-        style: TextStyle(color: Colors.black, fontSize: 20.0),
+        style: TextStyle(color: Colors.white, fontSize: 20.0),
       ),
     );
 
