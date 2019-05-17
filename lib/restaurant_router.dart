@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:friendly_eats_flutter/restaurant_router.dart';
 import 'package:friendly_eats_flutter/restaurant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -30,6 +29,7 @@ class RestaurantRouter extends StatelessWidget{
                   numRatings: document['numRating'],
                   photo: document['photo'].toString(),
                   price: document['price'],
+                  id: document.documentID,
                 );
               }).toList(),
             );
