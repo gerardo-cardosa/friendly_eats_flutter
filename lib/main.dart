@@ -1,12 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:friendly_eats_flutter/restaurant_router.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 
 void main() => runApp(FriendlyEatsApp());
 
 class FriendlyEatsApp extends StatelessWidget {
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
+
+
+    Future<FirebaseUser> _handleSignIn() async {
+      final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+      print("Google Auth: $googleAuth");
+      final AuthCredential credential = GoogleAuthProvider.getCredential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final FirebaseUser user = await _auth.signInWithCredential(credential);
+      print("signed in " + user.displayName);
+      return user;
+    }
+
+
+    _handleSignIn()
+        .then((FirebaseUser user) => print(user))
+        .catchError((e) => print(e));
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Friendly Eats',
