@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:friendly_eats_flutter/restaurant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 final _backgroundColor = Colors.lightBlue[600];
 
@@ -10,6 +11,14 @@ class RestaurantRouter extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     final restaurants = <Restaurant>[];
+
+    CachedNetworkImage getPhoto(String url) {
+      print('Foto url: $url');
+      return CachedNetworkImage(
+        imageUrl: url,
+        width: 70.0,
+      );
+    }
 
     final query = StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance.collection('restaurants').snapshots(),
@@ -26,16 +35,19 @@ class RestaurantRouter extends StatelessWidget{
                   city: document['city'].toString(),
                   category: document['category'].toString(),
                   avgRating: document['avgRating'],
-                  numRatings: document['numRating'],
+                  numRatings: int.parse(document['numRatings'].toString()),
                   photo: document['photo'].toString(),
                   price: document['price'],
                   id: document.documentID,
+                  image: getPhoto(document['photo'].toString()),
                 );
               }).toList(),
             );
         }
       },
     );
+
+
 
     final listView = Container(
       child: query,

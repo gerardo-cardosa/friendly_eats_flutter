@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 import 'package:flutter/material.dart';
+import 'package:friendly_eats_flutter/rating_bar.dart';
 
 class Rating extends StatelessWidget {
   final double rating;
@@ -50,17 +51,44 @@ class Rating extends StatelessWidget {
         child: InkWell(
           child: Card(
             child: ListTile(
-              title: Text(userName),
+              title: Text(userName,
+                  style: new TextStyle(
+                    color: Colors.grey,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12.0,
+                  )),
               subtitle: ListView(
                 children: <Widget>[
-                  Text(text),
-                  Row(
-                    children: stars,
-                  ),
+                  Text(text,
+                      style: new TextStyle(
+                        color: Colors.black,
+                        fontSize: 15.0,
+                      )),
                 ],
               ),
               isThreeLine: true,
             ),
+            /*
+            child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  ListTile(
+                    title: Text(userName,
+                      style: new TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12.0,
+                    )),
+                    subtitle: Text(text,
+                        style: new TextStyle(
+                          color: Colors.black,
+                          fontSize: 15.0,
+                    )),
+                  ),
+                  //new StarRating(rating: rating),
+                ],
+              ),
+            */
           ),
         ),
       ),

@@ -4,6 +4,7 @@ import 'package:friendly_eats_flutter/rating_bar.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 import 'dart:async';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class Restaurant extends StatelessWidget {
   //Restaurant properties
@@ -15,6 +16,7 @@ class Restaurant extends StatelessWidget {
   final int price;
   final String photo;
   final String id;
+  final CachedNetworkImage image;
 
   const Restaurant({
     Key key,
@@ -26,13 +28,15 @@ class Restaurant extends StatelessWidget {
     @required this.photo,
     @required this.price,
     @required this.id,
+    @required this.image,
   })  : assert(title != null),
         assert(city != null),
         assert(category != null),
         assert(avgRating != null),
-        //assert(numRatings != null),
+        assert(numRatings != null),
         assert(photo != null),
-        assert(price != null)
+        assert(price != null),
+        assert(image != null)
  // assert(id != null);
 ;
   void _navigateToConverter(BuildContext context) {
@@ -92,9 +96,11 @@ class Restaurant extends StatelessWidget {
       return file.path;
     }
 
-    var storageFoto; 
-    getImage().then((result){storageFoto = result; print(result);});
-    
+
+    //getImage().then((result){storageFoto = result; print(result);});
+
+
+
 
 
 
@@ -109,12 +115,7 @@ class Restaurant extends StatelessWidget {
           },
           child: Card(
             child: ListTile(
-              leading: FlutterLogo(size: 30.0,),
-//              Image(
-//                image: new AssetImage(
-//                  storageFoto
-//                ),
-//              ),
+              leading: image,
               title: Text(title),
               subtitle: new Column(
                   children: <Widget>[

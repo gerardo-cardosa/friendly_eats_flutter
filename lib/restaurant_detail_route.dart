@@ -3,6 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:friendly_eats_flutter/rating.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:friendly_eats_flutter/restaurant.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class RestaurantDetailRoute extends StatelessWidget {
 //  final String title;
@@ -66,7 +67,7 @@ class RestaurantDetailRoute extends StatelessWidget {
             padding: new EdgeInsets.only(left: 16.0, bottom: 8.0, right: 16.0),
             decoration: new BoxDecoration(
               image: new DecorationImage(
-                image: new AssetImage('lib/food_1.png'),
+                image: CachedNetworkImageProvider(restaurant.photo),
                 fit: BoxFit.cover,
               ),
             ),
@@ -103,7 +104,7 @@ class RestaurantDetailRoute extends StatelessWidget {
                 new Positioned(
                   right: 0.0,
                   bottom: 0.0,
-                  child: new Icon(Icons.star, color: Colors.white,),
+                  child: (restaurant.price == 1) ? Text('\$'): (restaurant.price == 2) ? Text('\$\$'): Text('\$\$\$'),
                 ),
               ],
             )),
