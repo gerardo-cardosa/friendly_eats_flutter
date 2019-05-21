@@ -100,10 +100,6 @@ class Restaurant extends StatelessWidget {
     //getImage().then((result){storageFoto = result; print(result);});
 
 
-
-
-
-
     return Material(
       color: Colors.transparent,
       child: Container(

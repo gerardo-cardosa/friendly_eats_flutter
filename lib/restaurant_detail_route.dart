@@ -4,6 +4,87 @@ import 'package:friendly_eats_flutter/rating.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:friendly_eats_flutter/restaurant.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
+
+class dialogWidget extends StatefulWidget {
+  final Restaurant rest;
+
+  const dialogWidget({@required this.rest});
+
+  @override
+  _TestState createState() => new _TestState(rest: rest);
+}
+
+class _TestState extends State<dialogWidget> {
+  double rating = 3.5;
+  String text = "";
+  Restaurant rest;
+
+  _TestState({this.rest});
+
+  void _saveReview() {
+    String id = widget.rest.id;
+    Firestore.instance.collection('restaurants/$id/ratings').add({
+      "rating": rating,
+      "text": text,
+      "userID": "72688f89-8299-4ce7-92b8-ccf26401ea7d",
+      "userName": "Random User"
+    });
+    Navigator.of(context).pop();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: new Text(
+        "Add Review",
+        style: TextStyle(fontSize: 20.0),
+      ),
+      content: new Column(
+        children: <Widget>[
+          SmoothStarRating(
+            allowHalfRating: false,
+            onRatingChanged: (v) {
+              rating = v;
+              print(rating);
+              setState(() {
+                rating = v;
+              });
+            },
+            starCount: 5,
+            rating: rating,
+            size: 40.0,
+            color: Colors.green,
+            borderColor: Colors.green,
+          ),
+          new Expanded(
+            child: new TextField(
+              autofocus: true,
+              decoration: new InputDecoration(
+                  labelText: 'Review', hintText: 'How was your experiende?'),
+              onChanged: (com) {
+                text = com;
+              },
+            ),
+          )
+        ],
+      ),
+      actions: <Widget>[
+        // usually buttons at the bottom of the dialog
+        new FlatButton(
+          child: new Text("Save"),
+          onPressed: _saveReview,
+        ),
+        new FlatButton(
+          child: new Text("Close"),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
+  }
+}
 
 class RestaurantDetailRoute extends StatelessWidget {
 //  final String title;
@@ -15,12 +96,12 @@ class RestaurantDetailRoute extends StatelessWidget {
   final Restaurant restaurant;
   final List<Widget> stars;
 
-  const RestaurantDetailRoute({
+  const RestaurantDetailRoute(
+      {
 //    @required this.title,
 //    @required this.id,
-@required this.restaurant,
-    @required this.stars
-  });
+      @required this.restaurant,
+      @required this.stars});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +110,6 @@ class RestaurantDetailRoute extends StatelessWidget {
     print(restaurant.title);
 
     String id = restaurant.id;
-
 
     final query = StreamBuilder<QuerySnapshot>(
       stream:
@@ -56,10 +136,22 @@ class RestaurantDetailRoute extends StatelessWidget {
       },
     );
 
+    void _showDialog() {
+      // flutter defined function
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // return object of type Dialog
+          return new dialogWidget(
+            rest: restaurant,
+          );
+        },
+      );
+    }
+
     final listView = Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-
         Container(
             constraints: new BoxConstraints.expand(
               height: 200.0,
@@ -74,23 +166,20 @@ class RestaurantDetailRoute extends StatelessWidget {
             child: new Stack(
               children: <Widget>[
                 new Positioned(
-                  left: 0.0,
-                  bottom: 40.0,
-                  child: new Text(restaurant.title,
-                      style: new TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30.0,
-                      )),
-                ),
+                    left: 0.0,
+                    bottom: 40.0,
+                    child: new Text(restaurant.title,
+                        style: new TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30.0,
+                        ))),
                 new Positioned(
-                  left: 0.0,
-                  bottom: 20.0,
-                  child:
-                  Row(
-                    children: restaurant.setStarts(Colors.white),
-                  )
-                ),
+                    left: 0.0,
+                    bottom: 20.0,
+                    child: Row(
+                      children: restaurant.setStarts(Colors.white),
+                    )),
                 new Positioned(
                   left: 0.0,
                   bottom: 0.0,
@@ -104,7 +193,17 @@ class RestaurantDetailRoute extends StatelessWidget {
                 new Positioned(
                   right: 0.0,
                   bottom: 0.0,
-                  child: new Icon(Icons.star, color: Colors.white,),
+
+                  child: new FloatingActionButton(
+                      onPressed: _showDialog,
+                      child: Icon(
+                        Icons.add,
+                        color: Colors.black,
+                        size: 40.0,
+                    ),
+                    mini: false,
+
+                  ),
                 ),
               ],
             )),
